@@ -33,14 +33,11 @@ module UnobtrusiveFlash
       def sanitize_flash(flash)
         flash.to_a.map do |key, value|
 					item = value.kind_of?(Array) ? value : [value]
-					result = []
 					
 					item.map do |internal_item| 
-						html_safe_value = value.html_safe? ? value : ERB::Util.html_escape(value)
-						result << [key, html_safe_value]
+						html_safe_value = internal_item.html_safe? ? internal_item : ERB::Util.html_escape(internal_item)
+						[key, html_safe_value]
           end
-			
-					result
         end.flatten
       end
     end
